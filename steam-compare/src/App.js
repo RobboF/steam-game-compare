@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import SearchBar from './components/searchBar/searchBar'
+import NavBar from './components/navBar/navBar'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const apiKey = "E45637E592AEE0579E4B24A67DBCA1EB"
+
+class App extends Component {
+constructor(props){
+    super(props);
+    this.state = {
+        username: ""
+        }
+    }
+
+
+searchSteam = (username) => {
+    
+    
+    fetch(` http://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${apiKey}&vanityurl=${username}&format=json`, {
+    method: 'GET',
+    mode: "no-cors",
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  })
+  .then(data => console.log('data returned: ', data))    
+}
+
+  render () {
+      return(
+        <div className="helvetica">
+            <NavBar />
+            <SearchBar searchSteam={this.searchSteam}/>
+        </div>
+    )
+  }
 }
 
 export default App;
+
+
